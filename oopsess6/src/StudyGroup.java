@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudyGroup {
-    private int groupId;
-    private String groupName;
+    private final int groupId;
+    private final String groupName;
     private List<Student> members;
     private StudyRoom currentRoom;
     private static int nextId = 1;
