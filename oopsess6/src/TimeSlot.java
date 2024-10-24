@@ -29,11 +29,6 @@ public class TimeSlot {
         this.isScheduled = false;
     }
 
-    public Date getDate() { return date; }
-    public LocalTime getStartTime() { return startTime; }
-    public LocalTime getEndTime() { return endTime; }
-    public boolean isScheduled() { return isScheduled; }
-
     @Override
     public String toString() {
         return String.format("%tF %s - %s",

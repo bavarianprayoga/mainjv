@@ -28,10 +28,6 @@ public class StudyRoom {
         isOccupied = false;
     }
 
-    public boolean checkAvailability() {
-        return !isOccupied;
-    }
-
     // Getters
     public int getRoomId() { return roomId; }
     public boolean isOccupied() { return isOccupied; }
