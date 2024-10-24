@@ -1,10 +1,11 @@
 import java.util.*;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 
 public class StudyRoomManagement {
-    private static Scanner scanner = new Scanner(System.in);
-    private static List<StudyRoom> studyRooms = new ArrayList<>();
-    private static List<StudyGroup> studyGroups = new ArrayList<>();
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final List<StudyRoom> studyRooms = new ArrayList<>();
+    private static final List<StudyGroup> studyGroups = new ArrayList<>();
 
     public static void main(String[] args) {
         while (true) {
@@ -57,7 +58,7 @@ public class StudyRoomManagement {
         System.out.println("6. View Study Rooms");
         System.out.println("7. Delete Study Room");
         System.out.println("8. Reserve Room");
-        System.out.println("\n");
+        System.out.println();
         System.out.println("9. Exit");
         System.out.println("===================================");
     }
@@ -109,11 +110,12 @@ public class StudyRoomManagement {
 
         for (StudyRoom room : studyRooms) {
             System.out.println("\nRoom ID: " + room.getRoomId());
-            System.out.println("Status: " + (room.isOccupied() ? "Occupied" : "Available"));
-
-            TimeSlot currentSlot = room.getCurrentTimeSlot();
-            if (currentSlot != null) {
-                System.out.println("Current Booking: " + currentSlot.getStartTime() + " - " + currentSlot.getEndTime());
+            if (room.isOccupied()) {
+                System.out.println("Status: Occupied");
+                TimeSlot currentSlot = room.getCurrentTimeSlot();
+                System.out.println("Current Booking: " + currentSlot.toString());
+            } else {
+                System.out.println("Status: Available");
             }
         }
     }
@@ -164,14 +166,22 @@ public class StudyRoomManagement {
             return;
         }
 
-        // Simple time slot creation for demonstration
-        Date today = new Date();
-        LocalTime startTime = LocalTime.of(8, 0);
-        LocalTime endTime = LocalTime.of(10, 0);
-        TimeSlot timeSlot = new TimeSlot(today, startTime, endTime);
+        if (room.isOccupied()) {
+            System.out.println("This room is currently occupied!");
+            return;
+        }
+
+        // Get time for reservation
+        LocalTime startTime = getTimeInput();
+        if (startTime == null) {
+            return;
+        }
+
+        TimeSlot timeSlot = new TimeSlot(new Date(), startTime);
 
         if (group.reserveRoom(room, timeSlot)) {
             System.out.println("Room reserved successfully!");
+            System.out.println("Time slot: " + timeSlot);
         } else {
             System.out.println("Failed to reserve room - it might be occupied!");
         }
@@ -280,6 +290,22 @@ public class StudyRoomManagement {
                 return value;
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a valid number!");
+            }
+        }
+    }
+
+    private static LocalTime getTimeInput() {
+        while (true) {
+            try {
+                System.out.print("Enter start time (HH:mm): ");
+                String timeStr = scanner.nextLine().trim();
+                return TimeSlot.parseTime(timeStr);
+            } catch (DateTimeParseException e) {
+                System.out.println("Please enter time in HH:mm format (e.g., 14:30)");
+                System.out.println("Would you like to try again? (y/n)");
+                if (!scanner.nextLine().trim().toLowerCase().startsWith("y")) {
+                    return null;
+                }
             }
         }
     }
