@@ -1,7 +1,6 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 import models.BeefDumpling;
 import models.ChickenDumpling;
@@ -68,7 +67,7 @@ public class Main {
 			do {
 				System.out.print("Input beef doneness [medium | well done]: ");
 				beefDoneness = scanner.nextLine();
-			} while (!beefDoneness.equals("medium") && !beefDoneness.equals("well done"));
+			} while (!beefDoneness.equalsIgnoreCase("medium") && !beefDoneness.equalsIgnoreCase("well done"));
 			dumpling = new BeefDumpling(ingredients, price, beefDoneness);
 		}
 		
