@@ -15,7 +15,7 @@ public class Main {
 	}
 	
 	static void addTetap() {
-		sc.nextLine();
+		sc.nextLine(); //consume newline
 		System.out.println("Name: ");
 		String name = sc.nextLine();
 		System.out.println("ID: ");
@@ -30,7 +30,7 @@ public class Main {
 	}
 	
 	static void addMagang() {
-		sc.nextLine();
+		sc.nextLine(); //consume newline
 		System.out.println("Name: ");
 		String name = sc.nextLine();
 		System.out.println("ID: ");
